@@ -1,7 +1,7 @@
 class Publisher
-  def self.publish
+  def self.publish(message)
     x = channel.direct("currencies.direct", routing_key: "acknowledgements")
-    x.publish(message)
+    x.publish(message.to_json)
   end
 
   private
@@ -14,10 +14,5 @@ class Publisher
     @connection ||= Bunny.new.tap do |c|
       c.start
     end
-  end
-
-  def self.message
-    fetcher_output = Fetcher.fetch_currencies
-    { uuid: fetcher_output.uuid, rates: fetcher_output.rates['rates'] }.to_json
   end
 end

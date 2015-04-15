@@ -1,13 +1,15 @@
 class CurrencyWorker
   include Sneakers::Worker
 
-  from_queue "currencies.queue_#{ENV['QUEUE_ID']}"
+  id = ENV['QUEUE_ID']
+  from_queue "currencies.queue_#{id}"
 
   def work(message)
     message = JSON.parse(message)
     currency = Currency.new(uuid: message['uuid'], rates: message['rates'])
 
     if currency.save
+      Publisher.publish(id: id, uuid: message['uuid'])
       ack!
     else
       requeue_or_reject
