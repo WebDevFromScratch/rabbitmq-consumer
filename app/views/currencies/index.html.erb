@@ -1,0 +1,18 @@
+<h1>EXCHANGE RATES</h1>
+
+<table class="currencies_table">
+  <tr>
+    <th>Time</th>
+    <th>USD/AUD</th>
+    <th>USD/PLN</th>
+    <th>USD/EUR</th>
+  </tr>
+  <% @currencies.each do |currency| %>
+    <tr>
+      <td><%= currency.created_at %></td>
+      <td><%= currency.rates['AUD'] %></td>
+      <td><%= currency.rates['PLN'] %></td>
+      <td><%= currency.rates['EUR'] %></td>
+    </tr>
+  <% end %>
+</table>
