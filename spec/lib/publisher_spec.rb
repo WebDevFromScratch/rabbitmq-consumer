@@ -11,12 +11,11 @@ MESSAGE = {
 describe Publisher do
   describe '.publish' do
     before do
-      allow(Publisher).to receive(:message) { MESSAGE }
-      Publisher.publish
+      Publisher.publish(MESSAGE)
     end
 
     it 'returns an object of a Bunny class' do
-      expect(Publisher.publish).to be_instance_of(Bunny::Exchange)
+      expect(Publisher.publish(MESSAGE)).to be_instance_of(Bunny::Exchange)
     end
   end
 end
